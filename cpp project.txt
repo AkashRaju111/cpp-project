@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+#include <bits/stdc++.h>
+using namespace std;
+
+
+class Father {
+public:
+
+    string name;
+    int age;
+    float wealth;
+
+    Father(const string& n, int a, float w) : name(n), age(a), wealth(w) {}
+
+    virtual void displayInfo() {
+        cout << "Name: " << name << ", Age: " << age << ", Wealth: $" << wealth << endl;
+    }
+
+    void giveAllowance() {
+        cout << name << " gives an allowance of $" << wealth * 0.1 << endl;
+    }
+};
+
+class Child : public Father {
+private:
+
+    string hobby;
+
+public:
+
+    Child(const string& n, int a, float w, const string& h) : Father(n, a, w), hobby(h) {}
+
+    void displayInfo() override {
+        cout << "Name: " << name << ", Age: " << age << ", Wealth: " << wealth << ", Hobby: " << hobby << endl;
+    }
+
+    void askForMoney(float amount) {
+        wealth += amount;
+        cout << name << " received " << amount << " from the father." << endl;
+    }
+};
+
+int main() {
+
+    Father father("John", 45, 10000);
+    Child child("Alex", 20, 0, "Playing Guitar");
+
+
+    father.displayInfo();
+    child.displayInfo();
+
+    cout << "Before allowance:" << endl;
+    father.giveAllowance();
+    child.giveAllowance();
+
+
+    Father* ptr;
+    ptr = &father;
+    ptr->giveAllowance();
+
+    ptr = &child;
+    ptr->giveAllowance();
+
+
+    cout << "After allowance:" << endl;
+    father.displayInfo();
+    child.displayInfo();
+
+
+    cout << "Child's Wealth before asking for money: $" << child.wealth << endl;
+    child.askForMoney(1000);
+
+    cout << "Child's Wealth after asking for money: $" << child.wealth << endl;
+
+    return 0;
+}
